@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Programming Plans · buatkode</title>
+  <meta name="description" content="Reusable plans for everyday code: counting, searching, classifying, nested loops and more. Each plan has an animated trace and code in Python, Java, Rust, C and C++. Not sure which plan you need? The plan finder asks a few questions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body class="home">
+  <a class="skip-link" href="#finder">Skip to the plan finder</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="prompt">&gt;&gt;&gt;</span> buatkode<span class="cursor"></span><small>Programming Plans</small></a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="#catalogue" aria-current="page">Plans</a>
+        <a href="#finder">Plan finder</a>
+        <a href="#" aria-disabled="true">Learning path<span class="soon">soon</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero home-hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow"><span class="prompt">&gt;&gt;&gt;</span> programming plans</p>
+        <h1>Learn the plan once. <mark class="hl">Write it anywhere.</mark></h1>
+        <p class="intent">Experienced programmers don't solve every problem from scratch. They recognise a familiar <b>plan</b> (count these, find that, keep the best) and adapt it. Each plan here comes with an animated trace, the common mistakes, and code in five languages.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#finder">Find the plan for my problem</a>
+          <a class="btn" href="#catalogue">Browse all plans</a>
+        </div>
+        <p class="hero-stats" id="hero-stats"></p>
+      </div>
+      <div class="hero-art" id="home-art" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section class="section" id="finder" aria-labelledby="finder-title">
+      <div class="section-head"><span class="kicker">01</span><h2 id="finder-title">Plan finder</h2></div>
+      <p class="muted" style="margin:-4px 0 14px">Answer a few questions about your problem (at most four) and get the plan that fits.</p>
+      <div class="card finder" id="finder-card"></div>
+    </section>
+
+    <section class="section" id="catalogue" aria-labelledby="catalogue-title">
+      <div class="section-head"><span class="kicker">02</span><h2 id="catalogue-title">All plans</h2></div>
+      <p class="muted" style="margin:-4px 0 14px">Grouped by kind. Plans marked <b>coming soon</b> are listed so you can see where the catalogue is going.</p>
+      <div class="filters" id="filters"></div>
+      <div id="groups" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      Programming plans after Soloway &amp; Ehrlich (1984); variable roles after Sajaniemi (2002).<br>Text <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · code MIT · <a href="https://github.com/muhammadazani/programming-plans">source on GitHub</a>.
+    </div>
+  </footer>
+
+  <script src="data/catalog.js"></script>
+  <script src="data/finder.js"></script>
+  <script src="assets/js/home.js"></script>
+</body>
+</html>
