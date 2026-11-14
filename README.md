@@ -39,7 +39,7 @@ Useful flags: `--plan <slug>`, `--lang rust`, `--keep` (keeps the generated test
 
 1. Copy the data file of the most similar card in `data/plans/`. The trace types are `tiles` (D7), `pipeline` (A1), `branches` (B3) and `grid` (E1).
 2. Fill in the text, the code for all five languages (tag each line with its step number), the trace `run()` function, and the `checks` test cases.
-3. Add the slug to `PAGES` in `tools/make_pages.py`, run it, and set `live: true` in `data/catalog.js`. If the finder points at the plan with an `alt`, the alt can now go.
+3. Run `python3 tools/make_pages.py` (it reads the title and summary from the data file) and set `live: true` in `data/catalog.js`.
 4. Run `node tools/check_finder.js`; every live plan must be reachable from the finder.
 5. Run `python3 tools/check_snippets.py --plan <slug>` until it's green.
 

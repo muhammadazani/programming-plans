@@ -48,6 +48,19 @@ def lit(lang: str, typ: str, v) -> str:
         return str(int(v))
     if typ == "string":
         return json.dumps(v)
+    if typ == "bool":
+        return ("True" if v else "False") if lang == "python" else ("true" if v else "false")
+    if typ == "int[][]":
+        rows = [", ".join(str(int(x)) for x in r) for r in v]
+        if lang == "c":  # C convention: a flattened rectangular grid plus its row and column counts
+            flat = ", ".join(", ".join(str(int(x)) for x in r) for r in v)
+            return f"(int[]){{{flat}}}, {len(v)}, {len(v[0])}" if v and v[0] else "NULL, 0, 0"
+        return {
+            "python": "[" + ", ".join(f"[{r}]" for r in rows) + "]",
+            "java": "new int[][]{" + ", ".join(f"{{{r}}}" for r in rows) + "}",
+            "rust": "&[" + ", ".join(f"vec![{r}]" for r in rows) + "]",
+            "cpp": "std::vector<std::vector<int>>{" + ", ".join(f"{{{r}}}" for r in rows) + "}",
+        }[lang]
     if typ == "int[]":
         items = ", ".join(str(int(x)) for x in v)
         return {
@@ -200,6 +213,7 @@ fn main() {{
         src = f"""#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
@@ -219,7 +233,12 @@ int main(void) {{
 #include <cctype>
 #include <cmath>
 #include <iterator>
+#include <map>
 #include <numeric>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
 #include <cstdio>
 #include <iostream>
 #include <string>

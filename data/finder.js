@@ -47,7 +47,8 @@ window.FINDER = {
         { label: "Yes", hint: "zero, a negative number, an empty list…", result: "B1", why: "Handle those inputs first with a guard, then do the calculation (A1) for the inputs that are left." },
         { label: "No: just compute it", hint: "convert units if needed, then apply the formula", result: "A1", why: "Name the inputs, convert units, apply the formula, return the result." },
         { label: "Split an amount into units", hint: "seconds into hours, minutes and seconds", result: "A3", alt: "A1", why: "Integer division gives the big units, the remainder gives what's left over." },
-        { label: "Exchange two values", hint: "swap a and b", result: "A2", alt: "A1", why: "Use a temporary variable so neither value is lost." }
+        { label: "Exchange two values", hint: "swap a and b", result: "A2", alt: "A1", why: "Use a temporary variable so neither value is lost." },
+        { label: "Work with the digits of a number", hint: "sum of the digits, how many digits", result: "D16", why: "% 10 gives the last digit and integer division by 10 drops it; repeat until nothing is left." }
       ]
     },
 
@@ -71,7 +72,8 @@ window.FINDER = {
         { label: "No: ask again until the input is valid", hint: "a number between 1 and 10", result: "C3", alt: "C2", why: "Read, and while the input is invalid, explain and read again." },
         { label: "No: stop when a goal is reached", hint: "how many years until the savings double?", result: "C4", alt: "C1", why: "Loop while the goal isn't reached yet, counting the rounds." },
         { label: "Show a menu until the user quits", hint: "1) add  2) list  0) quit", result: "C5", alt: "C2", why: "Show the menu, act on the choice, and loop until the quit option." },
-        { label: "Try candidates until one works", hint: "the smallest number that…", result: "G2", alt: "D6", why: "Generate candidates in order and test each one; stop at the first that passes." }
+        { label: "Try candidates until one works", hint: "the smallest number that…", result: "G2", alt: "D6", why: "Generate candidates in order and test each one; stop at the first that passes." },
+        { label: "Solve a smaller version of the same problem", hint: "n! = n × (n − 1)!, folders inside folders", result: "G3", alt: "D2", why: "A base case answers the smallest input; every other case calls itself on something smaller and builds on the answer." }
       ]
     },
 

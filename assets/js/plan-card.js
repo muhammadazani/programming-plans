@@ -218,6 +218,7 @@
       return s;
     }
   };
+  HERO_ART.stack = (H) => HERO_ART.branches(H);
   function heroArt() {
     const H = P.hero;
     return `<svg class="cubes" viewBox="0 0 460 290" role="img" aria-label="${esc(H.alt)}">
@@ -284,9 +285,9 @@
       const badges = v.badges || [];
       const row = v.values.length
         ? v.values.map((val, i) => {
-          const ptr = i === v.ptr ? '<span class="ptr" aria-hidden="true">▼</span>' : "";
+          const ptr = (Array.isArray(v.ptr) ? v.ptr.includes(i) : i === v.ptr) ? '<span class="ptr" aria-hidden="true">▼</span>' : "";
           const badge = badges[i] ? `<span class="badge">${esc(badges[i])}</span>` : "";
-          return `<div class="tile ${v.states[i] || ""}">${ptr}${esc(val)}<span class="idx">[${i}]</span>${badge}</div>`;
+          return `<div class="tile ${v.states[i] || ""}">${ptr}${esc(val)}${v.noIdx ? "" : `<span class="idx">[${i}]</span>`}${badge}</div>`;
         }).join("")
         : `<div class="empty-note">${esc(v.emptyNote || "[ ]  (no items to visit)")}</div>`;
       let out = "";
@@ -312,9 +313,13 @@
       host.innerHTML = `<div class="subject"><code>${esc(v.subject.k)} = ${esc(v.subject.v)}</code></div>` +
         v.rows.map((r) => `<div class="rung ${r.state || ""}"><code>${esc(r.test)}</code><span class="rung-arrow" aria-hidden="true">→</span><span class="rung-label">${esc(r.label)}</span><span class="rung-state">${{ miss: "false", hit: "true ✓", skipped: "not tested", testing: "testing…" }[r.state] || ""}</span></div>`).join("");
     },
+    stack(host, v) {
+      host.className = "view stackv";
+      host.innerHTML = `<div class="frames">${v.frames.map((f, i) => `<div class="frame ${f.state || ""}" style="margin-left:${i * 18}px"><code>${esc(f.call)}</code><span class="fnote">${esc(f.note || "")}</span>${f.ret !== undefined ? `<span class="fret">returns ${esc(f.ret)}</span>` : ""}</div>`).join("") || '<div class="empty-note">no calls yet</div>'}</div>`;
+    },
     grid(host, v) {
       host.className = "view gridv";
-      const cells = v.cells.map((row, r) => `<div class="grow${r === v.row ? " active" : ""}">${row.map((c) => `<span class="gcell ${c}"></span>`).join("")}<span class="gnl${v.newlines > r ? " done" : ""}">↵</span></div>`).join("");
+      const cells = v.cells.map((row, r) => `<div class="grow${r === v.row ? " active" : ""}">${row.map((c, ci) => `<span class="gcell ${c}${v.values ? " num" : ""}">${v.values ? esc(v.values[r][ci]) : ""}</span>`).join("")}<span class="gnl${v.newlines > r ? " done" : ""}">↵</span></div>`).join("");
       host.innerHTML = `<div class="gwrap"><div class="ggrid" style="--n:${v.cells[0] ? v.cells[0].length : 1}">${cells}</div>
         <div class="gout"><div class="gout-h">Output</div><pre>${esc(v.output) || " "}</pre></div></div>`;
     }
@@ -354,10 +359,14 @@
     // custom input form, shaped by the plan's input definition
     const I = T.input;
     let form;
-    if (I.kind === "list") {
+    if (I.kind === "none") {
+      form = h("<form></form>");
+    } else if (I.kind === "list") {
       form = h(`<form><input type="text" inputmode="numeric" aria-label="Your own list of numbers" placeholder="${esc(I.placeholder || "your list: 5, 2, -7")}"><button type="submit" class="btn small">Use</button></form>`);
     } else {
-      form = h(`<form>${I.fields.map((f) => f.type === "text"
+      form = h(`<form>${I.fields.map((f) => f.type === "bool"
+        ? `<label class="field"><input type="checkbox" name="${esc(f.name)}"${T.presets[0].input[f.name] ? " checked" : ""}> ${esc(f.label)}</label>`
+        : f.type === "text"
         ? `<label class="field">${esc(f.label)} <input type="text" class="wide" name="${esc(f.name)}" maxlength="${f.max}" value="${esc(T.presets[0].input[f.name])}"></label>`
         : `<label class="field">${esc(f.label)} <input type="number" name="${esc(f.name)}" min="${f.min}" max="${f.max}" step="1" value="${esc(T.presets[0].input[f.name])}"></label>`).join("")}<button type="submit" class="btn small">Use</button></form>`);
     }
@@ -370,6 +379,7 @@
         input = {};
         I.fields.forEach((f) => {
           if (f.type === "text") { input[f.name] = $(`input[name="${f.name}"]`, form).value.slice(0, f.max); return; }
+          if (f.type === "bool") { input[f.name] = $(`input[name="${f.name}"]`, form).checked; return; }
           const n = Math.trunc(Number($(`input[name="${f.name}"]`, form).value));
           input[f.name] = Math.min(f.max, Math.max(f.min, Number.isFinite(n) ? n : f.min));
           $(`input[name="${f.name}"]`, form).value = input[f.name];
@@ -378,13 +388,13 @@
       presetIdx = -1;
       load(input);
     });
-    presetsEl.appendChild(form);
+    if (I.kind !== "none") presetsEl.appendChild(form);
 
     function load(input) {
       stop(); events = T.run(input); at = 0;
       // keep the custom-input boxes in step with what is being shown
       if (I.kind === "list") $("input", form).value = input.join(", ");
-      else I.fields.forEach((f) => { $(`input[name="${f.name}"]`, form).value = input[f.name]; });
+      else if (I.kind === "fields") I.fields.forEach((f) => { const el = $(`input[name="${f.name}"]`, form); if (f.type === "bool") el.checked = !!input[f.name]; else el.value = input[f.name]; });
       draw();
     }
 
@@ -536,7 +546,7 @@
         const el = h(`<article class="pit ${p.kind}${p.wide ? " wide" : ""}">
           <span class="tag">${p.kind === "do" ? "✓ Do" : "✗ Don't"}</span>
           <h3>${esc(p.title)}</h3><p>${p.text}</p><div class="pit-code"></div>
-          ${p.take ? `<p class="take">→ ${esc(p.take)}</p>` : ""}</article>`);
+          ${p.take ? `<p class="take">→ ${p.take}</p>` : ""}</article>`);
         if (p.code) $(".pit-code", el).appendChild(codeBlock({ lang: state.lang, lines: P.snippets[p.code][state.lang], file: `${langLabel(state.lang)} · buggy` }));
         host.appendChild(el);
       });

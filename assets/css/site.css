@@ -524,3 +524,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .lic-list .no::before { content: "✗"; color: var(--red); }
 .footer-links { margin-bottom: 4px; font-weight: 600; }
 @media (max-width: 560px) { .refs:not(.plain) .ref { padding-left: 16px; padding-top: 52px; } .refs:not(.plain) .ref::before { left: 16px; top: 16px; } }
+
+/* grid cells with numbers, and the recursion call stack */
+.gcell.num { display: grid; place-items: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink); }
+.gcell.num.filled { color: #fff; }
+.frames { display: grid; gap: 6px; padding: 6px 0; }
+.frame { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; border: 2px solid var(--blue-mid); border-radius: 10px; background: #fff; padding: 7px 12px; box-shadow: 3px 3px 0 var(--blue-mid); }
+.frame code { background: transparent; color: var(--ink); font-weight: 700; padding: 0; }
+.frame .fnote { font-size: 13px; color: var(--ink-2); }
+.frame .fret { margin-left: auto; font-family: var(--mono); font-size: 13px; font-weight: 700; background: var(--green-soft); color: var(--green); padding: 1px 8px; border-radius: 999px; }
+.frame.active { border-color: var(--blue); background: var(--blue-soft); box-shadow: 3px 3px 0 var(--blue-dark); }
+.frame.waiting { opacity: .75; border-style: dashed; box-shadow: none; }
+.frame.base { border-color: var(--amber-dark); background: var(--amber-soft); box-shadow: 3px 3px 0 var(--amber-dark); }
+.frame.done { background: #f3f6fc; color: var(--ink-3); border-color: #c9d5ec; box-shadow: none; }

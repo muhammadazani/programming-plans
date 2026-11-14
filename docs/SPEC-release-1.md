@@ -181,6 +181,8 @@ There is no hard deadline yet (Q8). The phases are ordered to reduce risk early.
 | **4. Launch** | Deploy to GitHub Pages, set up analytics, write the announcement | The site is public |
 | **Fast follow** | The P1 list | — |
 
+**Beyond release 1 (2026-11-14):** the remaining 23 plans were added too, so all 40 cards are live (927/927 snippets green). The harness gained `bool` and `int[][]` parameters; the template gained multi-pointer tiles, numbered grid cells and a call-stack view for recursion.
+
 **Main risks**
 - **Content volume:** 17 cards × 5 languages × 2 styles is about 170 snippets, plus solutions and buggy variants. Mitigation: the test harness (R8) arrives before the content, and cards are written in batches by group.
 - **The trace metaphor might not fit A, B and C plans.** Mitigation: Q5 is answered in phase 1, before the remaining cards are written.
