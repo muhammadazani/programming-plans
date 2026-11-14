@@ -16,7 +16,7 @@ const path = require("path");
 const root = path.resolve(__dirname, "..");
 const read = (f) => fs.readFileSync(path.join(root, f), "utf8");
 function load(lang, files, key) {
-  const ctx = { window: {}, document: { documentElement: { lang } } };
+  const ctx = { window: {}, document: { documentElement: { lang }, addEventListener() {} } };
   vm.createContext(ctx);
   files.forEach((f) => vm.runInContext(read(f), ctx, { filename: f }));
   return key ? ctx.window[key] : ctx.window;

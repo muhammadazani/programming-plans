@@ -20,7 +20,7 @@ UI = {
     "en": {
         "siteName": "Programming Plans", "skip": "Skip to the animated trace", "navMain": "Main",
         "navPlans": "Plans", "navFinder": "Plan finder", "navRefs": "References", "navLicence": "Licence",
-        "altLabel": "ID", "altTitle": "Baca dalam Bahasa Indonesia", "codeSettings": "Code settings",
+        "codeSettings": "Code settings",
         "codeIn": "Code in", "progLang": "Programming language", "style": "Style", "codeStyle": "Code style",
         "onPage": "On this page", "tocWatch": "Watch", "tocSteps": "Steps", "tocCode": "Code",
         "tocPitfalls": "Pitfalls", "tocTry": "Try it", "tocCompare": "Compare", "siteInfo": "Site information",
@@ -31,7 +31,7 @@ UI = {
     "id": {
         "siteName": "Skema Pemrograman", "skip": "Langsung ke animasi penelusuran", "navMain": "Utama",
         "navPlans": "Skema", "navFinder": "Pencari skema", "navRefs": "Referensi", "navLicence": "Lisensi",
-        "altLabel": "EN", "altTitle": "Read in English", "codeSettings": "Pengaturan kode",
+        "codeSettings": "Pengaturan kode",
         "codeIn": "Kode", "progLang": "Bahasa pemrograman", "style": "Gaya", "codeStyle": "Gaya kode",
         "onPage": "Di halaman ini", "tocWatch": "Lihat", "tocSteps": "Langkah", "tocCode": "Kode",
         "tocPitfalls": "Jebakan", "tocTry": "Coba", "tocCompare": "Bandingkan", "siteInfo": "Informasi situs",
@@ -47,7 +47,7 @@ UI = {
 # With `node -e`, the extra arguments start at process.argv[1].
 NODE_SCRIPT = """
 const fs = require('fs'), vm = require('vm');
-const ctx = { window: {}, document: { documentElement: { lang: process.argv[1] } } };
+const ctx = { window: {}, document: { documentElement: { lang: process.argv[1] }, addEventListener() {} } };
 vm.createContext(ctx);
 for (const f of process.argv.slice(2)) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx, { filename: f });
 process.stdout.write(JSON.stringify(ctx.window.PLAN));
@@ -55,6 +55,17 @@ process.stdout.write(JSON.stringify(ctx.window.PLAN));
 
 
 template = (ROOT / "tools" / "page-template.html").read_text(encoding="utf-8")
+GLOBE = '<svg class="globe" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M1.5 8h13M8 1.5c1.9 1.9 2.8 4.1 2.8 6.5S9.9 12.6 8 14.5M8 1.5C6.1 3.4 5.2 5.6 5.2 8s.9 4.6 2.8 6.5"/></svg>'
+
+
+def lang_switch(lang, href_en, href_id):
+    """The EN / ID switch in the header; the current language is marked aria-current."""
+    cur = lambda l: ' aria-current="true"' if l == lang else ""
+    return (f'<nav class="lang-switch" aria-label="Language / Bahasa">{GLOBE}'
+            f'<a href="{href_en}" hreflang="en" lang="en" title="English"{cur("en")}>EN</a>'
+            f'<a href="{href_id}" hreflang="id" lang="id" title="Bahasa Indonesia"{cur("id")}>ID</a></nav>')
+
+
 count = 0
 for data in sorted((ROOT / "data" / "plans").glob("*.js")):
     slug = data.stem
@@ -74,8 +85,8 @@ for data in sorted((ROOT / "data" / "plans").glob("*.js")):
         values.update({
             "lang": lang, "title": html.escape(plan["title"], quote=False), "desc": html.escape(desc), "slug": slug, "root": root,
             "urlEn": f"{SITE}plans/{slug}.html", "urlId": f"{SITE}id/plans/{slug}.html",
-            "altHref": f"../id/plans/{slug}.html" if lang == "en" else f"../../plans/{slug}.html",
-            "altLang": "id" if lang == "en" else "en",
+            "langSwitch": lang_switch(lang, f"{slug}.html" if lang == "en" else f"../../plans/{slug}.html",
+                                      f"../id/plans/{slug}.html" if lang == "en" else f"{slug}.html"),
             "catalogOverlay": f'  <script src="{root}data/id/catalog.js"></script>\n' if lang == "id" else "",
             "planOverlay": f'  <script src="{root}data/id/plans/{slug}.js"></script>\n' if lang == "id" else "",
         })

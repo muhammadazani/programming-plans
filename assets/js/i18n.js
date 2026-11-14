@@ -140,3 +140,11 @@
 
   window.I18N = { lang: LANG, t, overlay, strings: S };
 })();
+
+/* Switching language keeps your place on the page (#code, #finder…). */
+document.addEventListener("click", (e) => {
+  const a = e.target.closest && e.target.closest(".lang-switch a");
+  if (!a) return;
+  if (a.hasAttribute("aria-current")) { e.preventDefault(); return; }
+  if (location.hash) { e.preventDefault(); location.href = a.getAttribute("href").split("#")[0] + location.hash; }
+});
