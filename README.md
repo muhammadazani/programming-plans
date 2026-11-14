@@ -17,6 +17,7 @@ Then open <http://localhost:8765/>. Any static host works (GitHub Pages, Netlify
 | `data/catalog.js` | All 40 plans: ID, slug, title, one-line summary, level, and `live: true` once the card exists |
 | `data/finder.js` | The plan finder's decision tree (questions → plans) |
 | `index.html`, `assets/js/home.js` | Home page: the plan finder and the filterable catalogue |
+| `references.html`, `license.html` | The References page (research, design inspiration, docs, fonts) and the Licence page |
 | `data/plans/<slug>.js` | Everything on one card: text, code with step tags, trace logic, quiz, exercise, test cases |
 | `assets/js/plan-card.js` | Draws any card from its data file. No plan-specific code lives here |
 | `plans/<slug>.html` | Generated pages, made by `tools/make_pages.py` from `tools/page-template.html` |

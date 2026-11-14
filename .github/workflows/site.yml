@@ -66,7 +66,7 @@ jobs:
       - name: Collect the public files
         run: |
           mkdir -p _site
-          cp -r index.html plans assets data _site/
+          cp -r index.html references.html license.html plans assets data _site/
 
       - uses: actions/configure-pages@v5
 

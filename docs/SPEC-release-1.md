@@ -162,7 +162,7 @@ Analytics must be privacy-friendly and cookie-less (see Q3).
 | Q1 | Should the public site keep the **buatkode** name (an Indonesian word) for an international audience, or have an English sub-brand? | Stakeholder | Before launch |
 | Q2 | Keep the original card IDs (A1…G3) visible, or renumber or drop them for the public? Keeping them helps your own students cross-reference. | Stakeholder | Before the index is built |
 | Q3 | Which analytics, if any: GoatCounter, Plausible, or none? This decides whether section 7 can be measured. | Stakeholder | Before launch |
-| Q4 | Licence: e.g. CC BY-SA 4.0 for the text and MIT for the code? | Stakeholder / legal | Before launch |
+| Q4 | ~~Licence~~ **Resolved 2026-11-14:** text CC BY-SA 4.0, code MIT (see `license.html`). | Stakeholder / legal | Done |
 | Q5 | Do the three trace visual types (tiles, branches, pipeline) work for A1, A4 and B3? Prototype them before writing more cards. | Design | **Yes**: phase 1 |
 | Q6 | Custom domain, or `github.io`? | Stakeholder | No |
 | Q7 | Which minimum language versions do we target (C++20 for `ranges`, Java 17, Rust 2021, C11)? This affects the idiomatic snippets. | Engineering | Before writing snippets |

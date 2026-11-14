@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>References · Programming Plans · buatkode</title>
+  <meta name="description" content="The research behind buatkode · Programming Plans: programming plans, novice mistakes, roles of variables and pattern-oriented instruction, plus the design inspiration, fonts and documentation used.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="prompt">&gt;&gt;&gt;</span> buatkode<span class="cursor"></span><small>Programming Plans</small></a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="index.html#catalogue">Plans</a>
+        <a href="index.html#finder">Plan finder</a>
+        <a href="references.html" aria-current="page">References</a>
+        <a href="license.html">Licence</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero page-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Plans</a><span>/</span>References</div>
+      <h1><mark class="hl">References</mark></h1>
+      <p class="intent">The ideas on this site come from decades of research on how people learn to program. Here are the sources, what each one contributes, and the design work and tools the site is built with.</p>
+    </div>
+  </section>
+
+  <main class="wrap prose" id="main">
+    <section class="section" aria-labelledby="research">
+      <div class="section-head"><span class="kicker">01</span><h2 id="research">Research behind the plans</h2></div>
+      <ol class="refs">
+        <li class="card ref">
+          <p class="cite">Soloway, E., &amp; Ehrlich, K. (1984). Empirical studies of programming knowledge. <i>IEEE Transactions on Software Engineering, SE-10</i>(5), 595–609.
+            <a href="https://doi.org/10.1109/TSE.1984.5010283">doi.org/10.1109/TSE.1984.5010283</a></p>
+          <p class="use"><b>What it shows:</b> experienced programmers recognise <em>programming plans</em>, stereotyped pieces of code such as a running total or a search loop, and follow the unwritten rules for combining them. Novices haven't built up that library yet.</p>
+          <p class="use"><b>Used here for:</b> the whole idea of the site. Each card is one plan, named and taught on its own.</p>
+        </li>
+        <li class="card ref">
+          <p class="cite">Soloway, E. (1986). Learning to program = learning to construct mechanisms and explanations. <i>Communications of the ACM, 29</i>(9), 850–858.
+            <a href="https://doi.org/10.1145/6592.6594">doi.org/10.1145/6592.6594</a></p>
+          <p class="use"><b>What it shows:</b> plans, and the ways of combining them, can be taught explicitly, instead of leaving students to discover them from finished programs.</p>
+          <p class="use"><b>Used here for:</b> the language-neutral <b>steps</b> on every card, and the plans that are built from other plans (Average = Accumulate + Counting).</p>
+        </li>
+        <li class="card ref">
+          <p class="cite">Spohrer, J. C., &amp; Soloway, E. (1986). Novice mistakes: Are the folk wisdoms correct? <i>Communications of the ACM, 29</i>(7), 624–632.
+            <a href="https://doi.org/10.1145/6138.6145">doi.org/10.1145/6138.6145</a></p>
+          <p class="use"><b>What it shows:</b> most novice bugs are not misunderstandings of individual statements; a small number of bug types, many of them about putting plans together, account for a large share of the errors.</p>
+          <p class="use"><b>Used here for:</b> the <b>Pitfalls</b> sections and the buggy code in the quizzes: returning inside the loop, resetting a total on every pass, starting a maximum at 0.</p>
+        </li>
+        <li class="card ref">
+          <p class="cite">Sajaniemi, J. (2002). An empirical analysis of roles of variables in novice-level procedural programs. In <i>Proceedings of the IEEE 2002 Symposia on Human Centric Computing Languages and Environments (HCC'02)</i> (pp. 37–39). IEEE.
+            <a href="https://doi.org/10.1109/HCC.2002.1046340">doi.org/10.1109/HCC.2002.1046340</a></p>
+          <p class="use"><b>What it shows:</b> a small set of <em>roles</em> (stepper, most-wanted holder, gatherer, one-way flag, fixed value and a few more) covers almost all variables in novice programs.</p>
+          <p class="use"><b>Used here for:</b> the role labels on the variables in each animated trace: <i>walker</i>, <i>counter</i>, <i>best so far</i>, <i>gatherer</i>, <i>stepper</i>, <i>fixed</i>.</p>
+        </li>
+        <li class="card ref">
+          <p class="cite">Muller, O., Ginat, D., &amp; Haberman, B. (2007). Pattern-oriented instruction and its influence on problem decomposition and solution construction. In <i>Proceedings of the 12th Annual SIGCSE Conference on Innovation and Technology in Computer Science Education (ITiCSE '07)</i> (pp. 151–155). ACM.
+            <a href="https://doi.org/10.1145/1268784.1268830">doi.org/10.1145/1268784.1268830</a></p>
+          <p class="use"><b>What it shows:</b> students taught to recognise and apply algorithmic patterns explicitly break problems down and build solutions better than students taught without them.</p>
+          <p class="use"><b>Used here for:</b> organising the site as a <b>catalogue</b>, the clue words on each card, and the <b>plan finder</b>, which trains the step of recognising which plan a problem needs.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="design">
+      <div class="section-head"><span class="kicker">02</span><h2 id="design">Design inspiration</h2></div>
+      <p class="muted">These pattern catalogues shaped how the cards and the catalogue are laid out. No content was copied from them.</p>
+      <ul class="refs plain">
+        <li class="card ref"><p class="cite"><a href="https://sites.research.google/datacardsplaybook/patterns/">Data Cards Playbook: Patterns</a>, Google Research.</p>
+          <p class="use">The <b>do / don't</b> tips with a one-line takeaway, used in every Pitfalls section.</p></li>
+        <li class="card ref"><p class="cite"><a href="https://catalogue.projectsbyif.com/">Design Patterns Catalogue</a>, Projects by IF.</p>
+          <p class="use">A catalogue grouped by category with counts, an illustration per pattern, and status labels such as “coming soon”.</p></li>
+        <li class="card ref"><p class="cite"><a href="https://refactoring.guru/design-patterns">Design Patterns</a>, Refactoring.Guru.</p>
+          <p class="use">The teaching order of a pattern page (intent, problem, analogy, structure, code, relations) and explicit “don't confuse it with” comparisons.</p></li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="docs">
+      <div class="section-head"><span class="kicker">03</span><h2 id="docs">Language documentation</h2></div>
+      <p class="muted">The idiomatic versions on each card use these standard libraries. Their official documentation is the place to look things up.</p>
+      <ul class="doc-links">
+        <li><b>Python</b> · <a href="https://docs.python.org/3/library/functions.html">Built-in functions</a> (<code>any</code>, <code>all</code>, <code>sum</code>, <code>max</code>) and <a href="https://docs.python.org/3/library/itertools.html">itertools</a></li>
+        <li><b>Java</b> · <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/package-summary.html">java.util.stream</a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html">String</a></li>
+        <li><b>Rust</b> · <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html">Iterator</a> and <a href="https://doc.rust-lang.org/std/primitive.str.html">str</a></li>
+        <li><b>C</b> · <a href="https://en.cppreference.com/w/c/string/byte">Null-terminated byte strings</a> (<code>string.h</code>, <code>ctype.h</code>), cppreference.com</li>
+        <li><b>C++</b> · <a href="https://en.cppreference.com/w/cpp/algorithm/ranges">Constrained algorithms</a> (<code>std::ranges</code>) and <a href="https://en.cppreference.com/w/cpp/algorithm/accumulate">std::accumulate</a>, cppreference.com</li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="fonts">
+      <div class="section-head"><span class="kicker">04</span><h2 id="fonts">Fonts</h2></div>
+      <ul class="doc-links">
+        <li><a href="https://fonts.google.com/specimen/Plus+Jakarta+Sans">Plus Jakarta Sans</a> by Tokotype, under the SIL Open Font License 1.1.</li>
+        <li><a href="https://fonts.google.com/specimen/JetBrains+Mono">JetBrains Mono</a> by JetBrains, under the SIL Open Font License 1.1.</li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="cite">
+      <div class="section-head"><span class="kicker">05</span><h2 id="cite">How to cite this site</h2></div>
+      <div class="card"><p class="cite" style="margin:0">buatkode · Programming Plans. (2026). <i>Reusable programming plans with animated traces and code in Python, Java, Rust, C and C++</i>. https://muhammadazani.github.io/programming-plans/</p></div>
+      <p class="muted">The lesson content is licensed under CC BY-SA 4.0; see the <a href="license.html">licence page</a> for how to credit it when you reuse it.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Site information"><a href="references.html">References</a> · <a href="license.html">Licence</a> · <a href="https://github.com/muhammadazani/programming-plans">Source on GitHub</a></nav>
+      Text <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · code <a href="license.html#code">MIT</a>.
+    </div>
+  </footer>
+</body>
+</html>

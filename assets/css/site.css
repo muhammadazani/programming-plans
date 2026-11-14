@@ -501,3 +501,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 }
 .code button:focus-visible, .gout button:focus-visible { outline-color: var(--amber); }
 .steps li:focus-visible { outline: 3px solid var(--blue); outline-offset: 0; }
+
+/* ================= text pages: references, licence ================= */
+.page-hero { padding: 40px 0 10px; }
+.page-hero .wrap { display: block; }
+.page-hero .intent { max-width: 44em; }
+.prose { padding-bottom: 40px; }
+.refs { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; counter-reset: ref; }
+.refs:not(.plain) .ref { counter-increment: ref; position: relative; padding-left: 64px; }
+.refs:not(.plain) .ref::before { content: counter(ref); position: absolute; left: 20px; top: 22px; width: 28px; height: 28px; border-radius: 8px; background: var(--amber-soft); border: 1.5px solid var(--amber); display: grid; place-items: center; font-family: var(--mono); font-weight: 700; font-size: 13px; color: #7a4f00; }
+.ref .cite { margin: 0 0 8px; font-size: 15px; line-height: 1.55; }
+.ref .cite a { word-break: break-all; }
+.ref .use { margin: 4px 0 0; color: var(--ink-2); font-size: 15px; }
+.doc-links { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.lic h3 { font-size: 24px; margin: 10px 0 6px; }
+.lic p { color: var(--ink-2); }
+.lic-list { list-style: none; padding: 0; margin: 10px 0 14px; display: grid; gap: 6px; }
+.lic-list li { padding-left: 26px; position: relative; }
+.lic-list li::before { position: absolute; left: 0; top: 0; width: 18px; text-align: center; font-weight: 800; }
+.lic-list .yes::before { content: "✓"; color: var(--green); }
+.lic-list .must::before { content: "!"; color: #7a4f00; }
+.lic-list .no::before { content: "✗"; color: var(--red); }
+.footer-links { margin-bottom: 4px; font-weight: 600; }
+@media (max-width: 560px) { .refs:not(.plain) .ref { padding-left: 16px; padding-top: 52px; } .refs:not(.plain) .ref::before { left: 16px; top: 16px; } }
