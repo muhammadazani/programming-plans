@@ -14,7 +14,7 @@
     { id: "c", label: "C" },
     { id: "cpp", label: "C++" }
   ];
-  const NUM_WORD = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+  const t = window.I18N ? window.I18N.t : (k) => k;
 
   /* ---------- small helpers ---------- */
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -104,7 +104,7 @@
      Returns the element with .setActive(stepNumber|null). */
   function codeBlock({ lang, lines, file, note, onLineHover }) {
     const norm = lines.map((l) => (typeof l === "string" ? [0, l] : l));
-    const root = h(`<div class="code"><div class="code-head"><span class="fname">${esc(file || langLabel(lang))}</span><button type="button">Copy</button></div><pre></pre></div>`);
+    const root = h(`<div class="code"><div class="code-head"><span class="fname">${esc(file || langLabel(lang))}</span><button type="button">${t("copy")}</button></div><pre></pre></div>`);
     const pre = $("pre", root);
     const rows = norm.map(([s, text]) => {
       const st = stepsOf(s);
@@ -121,7 +121,7 @@
     const copyBtn = $("button", root);
     copyBtn.addEventListener("click", () => {
       const text = norm.map((l) => l[1]).join("\n");
-      const done = () => { copyBtn.textContent = "Copied"; setTimeout(() => (copyBtn.textContent = "Copy"), 1200); };
+      const done = () => { copyBtn.textContent = t("copied"); setTimeout(() => (copyBtn.textContent = t("copy")), 1200); };
       if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => {}); else done();
     });
     root.setActive = (step) => rows.forEach(({ row, st }) => row.classList.toggle("on", step != null && st.includes(step)));
@@ -229,25 +229,25 @@
   function renderHero() {
     const title = esc(P.title).replace(esc(P.highlight), `<mark class="hl">${esc(P.highlight)}</mark>`);
     const groupName = CAT.groups[P.group] || "";
-    document.title = `${P.title} · Programming Plans · buatkode`;
+    document.title = `${P.title} · ${t("siteName")} · buatkode`;
     $("#hero").innerHTML = `
       <div class="wrap">
         <div>
-          <div class="crumbs"><a href="../index.html">Plans</a><span>/</span><a href="../index.html#group-${esc(P.group)}">${esc(P.group)} · ${esc(groupName)}</a><span>/</span>${esc(P.title)}</div>
+          <div class="crumbs"><a href="../index.html">${t("plans")}</a><span>/</span><a href="../index.html#group-${esc(P.group)}">${esc(P.group)} · ${esc(groupName)}</a><span>/</span>${esc(P.title)}</div>
           <h1><span class="code-tag">${esc(P.id)}</span>${title}</h1>
-          <p class="aka">Also known as ${P.aka.map((a) => `<b>${esc(a)}</b>`).join(", ")}</p>
+          <p class="aka">${t("aka")} ${P.aka.map((a) => `<b>${esc(a)}</b>`).join(", ")}</p>
           <p class="intent">${esc(P.intent)}</p>
           <div class="chips">
-            ${P.core ? '<span class="chip core">★ Core plan</span>' : ""}
-            <span class="chip level">Level · ${esc(P.level)}</span>
-            <span class="chip">Group ${esc(P.group)} · ${esc(groupName)}</span>
+            ${P.core ? `<span class="chip core">★ ${t("corePlan")}</span>` : ""}
+            <span class="chip level">${t("level")} · ${esc(t("lvl." + P.level))}</span>
+            <span class="chip">${t("group")} ${esc(P.group)} · ${esc(groupName)}</span>
           </div>
         </div>
         <div class="hero-art">
           ${heroArt()}
           <div class="plan-card" aria-hidden="true">
-            <div class="pc-title">plan <b>${esc(P.planCard.name)}</b></div>
-            <ol>${P.planCard.lines.map((t, i) => `<li><span class="num">${i + 1}</span>${esc(t)}</li>`).join("")}</ol>
+            <div class="pc-title">${t("planWord")} <b>${esc(P.planCard.name)}</b></div>
+            <ol>${P.planCard.lines.map((line, i) => `<li><span class="num">${i + 1}</span>${esc(line)}</li>`).join("")}</ol>
             <div class="pc-foot">${esc(P.planCard.foot)}</div>
           </div>
         </div>
@@ -258,21 +258,21 @@
     $("#analogy").innerHTML = `
       <div class="card analogy">
         <div class="icon" aria-hidden="true">${P.analogy.icon}</div>
-        <div><h3 class="small">Everyday analogy</h3><h3>${esc(P.analogy.title)}</h3><p>${esc(P.analogy.text)}</p></div>
+        <div><h3 class="small">${t("analogy")}</h3><h3>${esc(P.analogy.title)}</h3><p>${esc(P.analogy.text)}</p></div>
       </div>`;
   }
 
   function renderWhen() {
     $("#when").innerHTML = `
-      ${sectionHead("01", "When to use it")}
+      ${sectionHead("01", t("when"))}
       <div class="card grid-2">
         <div>
-          <h3 class="small">Clue words in the problem</h3>
+          <h3 class="small">${t("clueWords")}</h3>
           <div class="cues">${P.cues.map((c) => `<span class="cue">${esc(c)}</span>`).join("")}</div>
           <p class="muted" style="margin:0;font-size:14px">${P.cueSummary}</p>
         </div>
         <div>
-          <h3 class="small">Problems that use this plan</h3>
+          <h3 class="small">${t("problemsUsing")}</h3>
           <ul class="examples">${P.cueExamples.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
         </div>
       </div>`;
@@ -289,12 +289,12 @@
           const badge = badges[i] ? `<span class="badge">${esc(badges[i])}</span>` : "";
           return `<div class="tile ${v.states[i] || ""}">${ptr}${esc(val)}${v.noIdx ? "" : `<span class="idx">[${i}]</span>`}${badge}</div>`;
         }).join("")
-        : `<div class="empty-note">${esc(v.emptyNote || "[ ]  (no items to visit)")}</div>`;
+        : `<div class="empty-note">${esc(v.emptyNote || t("noItems"))}</div>`;
       let out = "";
       if (v.out) {
         const items = v.out.items.length
           ? v.out.items.map((x, i) => `<span class="oitem${i === v.out.fresh ? " fresh" : ""}">${esc(x)}</span>`).join("")
-          : `<span class="oempty">${esc(v.out.empty || "empty")}</span>`;
+          : `<span class="oempty">${esc(v.out.empty || t("empty"))}</span>`;
         out = `<div class="tiles-out"><span class="to-label">${esc(v.out.label)}</span><div class="to-items${v.out.text ? " text" : ""}">${items}</div></div>`;
       }
       host.innerHTML = `<div class="tiles${badges.some(Boolean) ? " with-badges" : ""}${v.values.length > 6 ? " compact" : ""}">${row}</div>${out}`;
@@ -311,35 +311,35 @@
     branches(host, v) {
       host.className = "view ladder";
       host.innerHTML = `<div class="subject"><code>${esc(v.subject.k)} = ${esc(v.subject.v)}</code></div>` +
-        v.rows.map((r) => `<div class="rung ${r.state || ""}"><code>${esc(r.test)}</code><span class="rung-arrow" aria-hidden="true">→</span><span class="rung-label">${esc(r.label)}</span><span class="rung-state">${{ miss: "false", hit: "true ✓", skipped: "not tested", testing: "testing…" }[r.state] || ""}</span></div>`).join("");
+        v.rows.map((r) => `<div class="rung ${r.state || ""}"><code>${esc(r.test)}</code><span class="rung-arrow" aria-hidden="true">→</span><span class="rung-label">${esc(r.label)}</span><span class="rung-state">${{ miss: t("rFalse"), hit: t("rTrue"), skipped: t("rSkipped"), testing: t("rTesting") }[r.state] || ""}</span></div>`).join("");
     },
     stack(host, v) {
       host.className = "view stackv";
-      host.innerHTML = `<div class="frames">${v.frames.map((f, i) => `<div class="frame ${f.state || ""}" style="margin-left:${i * 18}px"><code>${esc(f.call)}</code><span class="fnote">${esc(f.note || "")}</span>${f.ret !== undefined ? `<span class="fret">returns ${esc(f.ret)}</span>` : ""}</div>`).join("") || '<div class="empty-note">no calls yet</div>'}</div>`;
+      host.innerHTML = `<div class="frames">${v.frames.map((f, i) => `<div class="frame ${f.state || ""}" style="margin-left:${i * 18}px"><code>${esc(f.call)}</code><span class="fnote">${esc(f.note || "")}</span>${f.ret !== undefined ? `<span class="fret">${t("returns")} ${esc(f.ret)}</span>` : ""}</div>`).join("") || `<div class="empty-note">${t("noCalls")}</div>`}</div>`;
     },
     grid(host, v) {
       host.className = "view gridv";
       const cells = v.cells.map((row, r) => `<div class="grow${r === v.row ? " active" : ""}">${row.map((c, ci) => `<span class="gcell ${c}${v.values ? " num" : ""}">${v.values ? esc(v.values[r][ci]) : ""}</span>`).join("")}<span class="gnl${v.newlines > r ? " done" : ""}">↵</span></div>`).join("");
       host.innerHTML = `<div class="gwrap"><div class="ggrid" style="--n:${v.cells[0] ? v.cells[0].length : 1}">${cells}</div>
-        <div class="gout"><div class="gout-h">Output</div><pre>${esc(v.output) || " "}</pre></div></div>`;
+        <div class="gout"><div class="gout-h">${t("output")}</div><pre>${esc(v.output) || " "}</pre></div></div>`;
     }
   };
 
   function renderTrace() {
     const T = P.trace, sec = $("#watch");
     sec.innerHTML = `
-      ${sectionHead("02", "Watch it run", T.intro)}
+      ${sectionHead("02", t("watch"), T.intro)}
       <div class="card trace">
         <div class="trace-stage">
-          <div class="presets" role="group" aria-label="Choose an input"></div>
+          <div class="presets" role="group" aria-label="${t("chooseInput")}"></div>
           <div class="view"></div>
           <div class="msg" aria-live="polite"></div>
           <div class="vars"></div>
           <div class="controls">
-            <button class="btn" data-act="reset" type="button" title="Back to the start">⏮ Reset</button>
-            <button class="btn" data-act="back" type="button">◀ Back</button>
-            <button class="btn primary" data-act="next" type="button">Step ▶</button>
-            <button class="btn" data-act="play" type="button">▶ Play</button>
+            <button class="btn" data-act="reset" type="button" title="${t("backToStart")}">${t("reset")}</button>
+            <button class="btn" data-act="back" type="button">${t("back")}</button>
+            <button class="btn primary" data-act="next" type="button">${t("step")}</button>
+            <button class="btn" data-act="play" type="button">${t("play")}</button>
             <span class="progress"></span>
           </div>
         </div>
@@ -362,13 +362,13 @@
     if (I.kind === "none") {
       form = h("<form></form>");
     } else if (I.kind === "list") {
-      form = h(`<form><input type="text" inputmode="numeric" aria-label="Your own list of numbers" placeholder="${esc(I.placeholder || "your list: 5, 2, -7")}"><button type="submit" class="btn small">Use</button></form>`);
+      form = h(`<form><input type="text" inputmode="numeric" aria-label="${t("ownList")}" placeholder="${esc(I.placeholder || t("listPlaceholder"))}"><button type="submit" class="btn small">${t("use")}</button></form>`);
     } else {
       form = h(`<form>${I.fields.map((f) => f.type === "bool"
         ? `<label class="field"><input type="checkbox" name="${esc(f.name)}"${T.presets[0].input[f.name] ? " checked" : ""}> ${esc(f.label)}</label>`
         : f.type === "text"
         ? `<label class="field">${esc(f.label)} <input type="text" class="wide" name="${esc(f.name)}" maxlength="${f.max}" value="${esc(T.presets[0].input[f.name])}"></label>`
-        : `<label class="field">${esc(f.label)} <input type="number" name="${esc(f.name)}" min="${f.min}" max="${f.max}" step="1" value="${esc(T.presets[0].input[f.name])}"></label>`).join("")}<button type="submit" class="btn small">Use</button></form>`);
+        : `<label class="field">${esc(f.label)} <input type="number" name="${esc(f.name)}" min="${f.min}" max="${f.max}" step="1" value="${esc(T.presets[0].input[f.name])}"></label>`).join("")}<button type="submit" class="btn small">${t("use")}</button></form>`);
     }
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -405,12 +405,12 @@
       msgEl.className = `msg ${e.tone || ""}`;
       msgEl.innerHTML = `${e.step ? `<span class="num">${e.step}</span>` : ""}<span>${esc(e.msg)}</span>`;
       varsEl.innerHTML = (e.vars || []).map((x) =>
-        `<div class="var"><span class="k">${esc(x.k)}</span>${x.role ? `<span class="role ${esc(x.role)}" title="${esc(ROLE_HELP[x.role] || "")}">${esc(x.role)}</span>` : ""}<div class="v">${esc(x.v)}${x.of !== undefined ? `<span class="muted" style="font-size:14px"> / ${esc(x.of)}</span>` : ""}</div></div>`).join("");
-      progEl.textContent = `step ${at} of ${events.length - 1}`;
+        `<div class="var"><span class="k">${esc(x.k)}</span>${x.role ? `<span class="role ${esc(x.role)}" title="${esc(t("roleHelp." + x.role))}">${esc(t("role." + x.role))}</span>` : ""}<div class="v">${esc(x.v)}${x.of !== undefined ? `<span class="muted" style="font-size:14px"> / ${esc(x.of)}</span>` : ""}</div></div>`).join("");
+      progEl.textContent = t("stepOf", { a: at, b: events.length - 1 });
       $('[data-act="back"]', sec).disabled = at === 0;
       $('[data-act="reset"]', sec).disabled = at === 0;
       $('[data-act="next"]', sec).disabled = at === events.length - 1;
-      $('[data-act="play"]', sec).textContent = timer ? "⏸ Pause" : at === events.length - 1 ? "↻ Replay" : "▶ Play";
+      $('[data-act="play"]', sec).textContent = timer ? t("pause") : at === events.length - 1 ? t("replay") : t("play");
       if (codeEl) codeEl.setActive(e.step);
     }
 
@@ -442,23 +442,12 @@
     });
   }
 
-  const ROLE_HELP = {
-    walker: "Walker: holds each item of a collection in turn",
-    stepper: "Stepper: counts through a known sequence of values (1, 2, 3, …)",
-    result: "The answer the function gives back",
-    count: "Counter: goes up by one each time something happens",
-    fixed: "Fixed value: set once and never changed",
-    best: "Best so far: the most suitable value seen up to now",
-    gatherer: "Gatherer: collects the items (or total) seen so far",
-    flag: "One-way flag: once it changes, it never changes back",
-    temp: "Temporary: holds a value for a short while"
-  };
 
   /* ----- steps + code in the chosen language ----- */
   function renderSteps() {
     const sec = $("#steps");
     sec.innerHTML = `
-      ${sectionHead("03", "The plan, step by step", "The steps are the same in every language. Hover a step to find it in the code, or a line to find its step.")}
+      ${sectionHead("03", t("stepsTitle"), t("stepsSub"))}
       <div class="grid-2">
         <div class="card"><ol class="steps">${P.steps.map((s) => `<li data-step="${s.n}" tabindex="0"><span class="num">${s.n}</span><div><b>${esc(s.title)}</b><span>${esc(s.text)}</span></div></li>`).join("")}</ol></div>
         <div class="steps-code"></div>
@@ -486,9 +475,9 @@
   function renderAllLangs() {
     const sec = $("#code");
     sec.innerHTML = `
-      ${sectionHead("04", `Same plan, ${NUM_WORD[LANGS.length] || LANGS.length} languages`, "Tick the languages you want to compare. Hover any line: the matching step lights up in every listing. Switch <b>Style</b> in the toolbar to compare the plain version with each language's built-in shortcut.")}
-      <fieldset class="lang-picker"><legend class="sr-only">Languages to show</legend>
-        <label class="lp-all"><input type="checkbox" data-all> All</label>
+      ${sectionHead("04", t("sameTitle", { n: t("num")[LANGS.length] || LANGS.length }), t("sameSub"))}
+      <fieldset class="lang-picker"><legend class="sr-only">${t("langsToShow")}</legend>
+        <label class="lp-all"><input type="checkbox" data-all> ${t("all")}</label>
         ${LANGS.map((L) => `<label><input type="checkbox" value="${L.id}"> ${esc(L.label)}</label>`).join("")}
       </fieldset>
       <div class="grid-2 all-langs"></div>`;
@@ -538,16 +527,16 @@
   /* ----- pitfalls ----- */
   function renderPitfalls() {
     const sec = $("#pitfalls");
-    sec.innerHTML = `${sectionHead("05", "Pitfalls", "The mistakes people make most often with this plan, and what to do instead.")}<div class="pitfalls"></div>`;
+    sec.innerHTML = `${sectionHead("05", t("pitfalls"), t("pitfallsSub"))}<div class="pitfalls"></div>`;
     const host = $(".pitfalls", sec);
     onState(() => {
       host.innerHTML = "";
       P.pitfalls.forEach((p) => {
         const el = h(`<article class="pit ${p.kind}${p.wide ? " wide" : ""}">
-          <span class="tag">${p.kind === "do" ? "✓ Do" : "✗ Don't"}</span>
+          <span class="tag">${p.kind === "do" ? t("do") : t("dont")}</span>
           <h3>${esc(p.title)}</h3><p>${p.text}</p><div class="pit-code"></div>
           ${p.take ? `<p class="take">→ ${p.take}</p>` : ""}</article>`);
-        if (p.code) $(".pit-code", el).appendChild(codeBlock({ lang: state.lang, lines: P.snippets[p.code][state.lang], file: `${langLabel(state.lang)} · buggy` }));
+        if (p.code) $(".pit-code", el).appendChild(codeBlock({ lang: state.lang, lines: P.snippets[p.code][state.lang], file: `${langLabel(state.lang)} · ${t("buggy")}` }));
         host.appendChild(el);
       });
     });
@@ -557,7 +546,7 @@
   function renderTry() {
     const sec = $("#try");
     sec.innerHTML = `
-      ${sectionHead("06", "Try it", "Predict first, then check. Then write the plan yourself in your own editor.")}
+      ${sectionHead("06", t("tryIt"), t("tryItSub"))}
       <div class="quiz"></div>
       <div class="card exercise" style="margin-top:16px"></div>`;
     const quizEl = $(".quiz", sec);
@@ -566,7 +555,7 @@
     onState(() => {
       quizEl.innerHTML = "";
       P.quiz.forEach((q, qi) => {
-        const el = h(`<div class="card q"><div class="qn">QUESTION ${qi + 1} OF ${P.quiz.length}</div><h3>${esc(withFn(q.q, state.lang))}</h3><div class="qcode"></div><div class="opts"></div><div class="explain"></div></div>`);
+        const el = h(`<div class="card q"><div class="qn">${t("questionOf", { a: qi + 1, b: P.quiz.length })}</div><h3>${esc(withFn(q.q, state.lang))}</h3><div class="qcode"></div><div class="opts"></div><div class="explain"></div></div>`);
         if (q.code) $(".qcode", el).appendChild(codeBlock({ lang: state.lang, lines: P.snippets[q.code][state.lang], file: langLabel(state.lang) }));
         const opts = $(".opts", el), ex = $(".explain", el);
         const show = (picked) => {
@@ -577,7 +566,7 @@
           });
           const ok = picked === q.answer;
           ex.className = `explain show ${ok ? "good" : "bad"}`;
-          ex.innerHTML = `<b>${ok ? "Right." : "Not quite."}</b> ${esc(withFn(q.explain, state.lang))}`;
+          ex.innerHTML = `<b>${ok ? t("right") : t("notQuite")}</b> ${esc(withFn(q.explain, state.lang))}`;
         };
         q.options.forEach((o, oi) => {
           const b = h(`<button type="button" class="opt">${esc(o)}</button>`);
@@ -602,26 +591,26 @@
       <div>
         <h3 style="margin:0 0 6px">${esc(X.title)}</h3>
         <p style="margin:0 0 14px;color:var(--ink-2)">${X.task}</p>
-        <h3 class="small">The plan to follow</h3>
-        <ol class="ex-plan">${X.plan.map((t, i) => `<li><span class="num">${i + 1}</span><span>${esc(t)}</span></li>`).join("")}</ol>
-        <h3 class="small" style="margin-top:16px">Test your code with these cases</h3>
+        <h3 class="small">${t("planToFollow")}</h3>
+        <ol class="ex-plan">${X.plan.map((line, i) => `<li><span class="num">${i + 1}</span><span>${esc(line)}</span></li>`).join("")}</ol>
+        <h3 class="small" style="margin-top:16px">${t("testCases")}</h3>
         <div class="ex-tests"></div>
-        <p class="muted" style="margin:10px 0 0;font-size:14px">Write it in your own editor or an online playground, run each case, and compare. Any language works.</p>
+        <p class="muted" style="margin:10px 0 0;font-size:14px">${t("testNote")}</p>
       </div>
       <div>
-        <h3 class="small">Solution</h3>
-        <p class="muted" style="margin:0 0 10px;font-size:14px">Try it first. The solution follows the same steps as the plan.</p>
-        <button class="btn" data-x="sol" type="button">Show solution</button>
+        <h3 class="small">${t("solution")}</h3>
+        <p class="muted" style="margin:0 0 10px;font-size:14px">${t("solutionNote")}</p>
+        <button class="btn" data-x="sol" type="button">${t("showSolution")}</button>
         <div class="solution" hidden style="margin-top:12px"></div>
       </div>`;
     const sol = $(".solution", exEl), testsEl = $(".ex-tests", exEl);
     onState(() => {
       const fn = X.fn[state.lang];
-      const stdout = X.tests.some((t) => t.stdout !== undefined);
+      const stdout = X.tests.some((tc) => tc.stdout !== undefined);
       testsEl.innerHTML = `<div class="table-scroll"><table class="ctable ex-table">
-        <thead><tr><th>Call</th><th>${stdout ? "Prints" : "Returns"}</th></tr></thead>
-        <tbody>${X.tests.map((t) => `<tr><td><code>${esc(`${fn}(${t.args.map((a) => argLit(a, state.lang)).join(", ")})`)}</code></td>
-          <td>${t.stdout !== undefined ? (t.stdout ? `<pre class="ex-out">${esc(t.stdout)}</pre>` : '<span class="muted">nothing</span>') : `<code>${esc(argLit(t.expect, state.lang))}</code>`}</td></tr>`).join("")}</tbody>
+        <thead><tr><th>${t("call")}</th><th>${stdout ? t("prints") : t("returnsCol")}</th></tr></thead>
+        <tbody>${X.tests.map((tc) => `<tr><td><code>${esc(`${fn}(${tc.args.map((a) => argLit(a, state.lang)).join(", ")})`)}</code></td>
+          <td>${tc.stdout !== undefined ? (tc.stdout ? `<pre class="ex-out">${esc(tc.stdout)}</pre>` : `<span class="muted">${t("nothing")}</span>`) : `<code>${esc(argLit(tc.expect, state.lang))}</code>`}</td></tr>`).join("")}</tbody>
       </table></div>`;
       sol.innerHTML = "";
       sol.appendChild(codeBlock({ lang: state.lang, lines: X.solutions[state.lang], file: langLabel(state.lang) }));
@@ -630,7 +619,7 @@
       const b = e.target.closest('[data-x="sol"]');
       if (!b) return;
       sol.hidden = !sol.hidden;
-      b.textContent = sol.hidden ? "Show solution" : "Hide solution";
+      b.textContent = sol.hidden ? t("showSolution") : t("hideSolution");
     });
   }
 
@@ -639,7 +628,7 @@
     const C = P.compare, sec = $("#compare");
     const rows = C.rows.map((r) => {
       const visual = C.data
-        ? `<div class="mini" aria-label="checks ${r.stop == null ? C.data.length : r.stop + 1} of ${C.data.length} items">${C.data.map((v, i) => `<span class="${r.stop == null ? "seen" : i < r.stop ? "seen" : i === r.stop ? "stop" : "unseen"}">${v}</span>`).join("")}</div>`
+        ? `<div class="mini" aria-label="${t("checksOf", { a: r.stop == null ? C.data.length : r.stop + 1, b: C.data.length })}">${C.data.map((v, i) => `<span class="${r.stop == null ? "seen" : i < r.stop ? "seen" : i === r.stop ? "stop" : "unseen"}">${v}</span>`).join("")}</div>`
         : `<div class="cshape">${esc(r.shape)}</div>`;
       return `<div class="crow${r.self ? " self" : ""}">
         <div class="cname"><span class="pcode">${esc(r.id)}</span>${esc(r.name)}<small>${esc(r.question)}</small></div>
@@ -648,7 +637,7 @@
     }).join("");
     const T = C.table;
     sec.innerHTML = `
-      ${sectionHead("07", "Don't confuse it with…", C.intro)}
+      ${sectionHead("07", t("confuse"), C.intro)}
       <div class="card">
         <div class="compare-rows">${rows}</div>
         <div class="table-scroll"><table class="ctable">
@@ -664,20 +653,20 @@
       const c = catEntry(r.id) || {};
       const title = c.title || r.id;
       return c.live
-        ? `<a class="rel" href="${esc(c.slug)}.html"><span class="pcode">${esc(r.id)}</span><span>${esc(title)}<br><span class="why">${esc(r.why)}</span></span><span class="go">Open →</span></a>`
-        : `<span class="rel" aria-disabled="true"><span class="pcode">${esc(r.id)}</span><span>${esc(title)}<br><span class="why">${esc(r.why)}</span></span><span class="soon">Coming soon</span></span>`;
+        ? `<a class="rel" href="${esc(c.slug)}.html"><span class="pcode">${esc(r.id)}</span><span>${esc(title)}<br><span class="why">${esc(r.why)}</span></span><span class="go">${t("open")}</span></a>`
+        : `<span class="rel" aria-disabled="true"><span class="pcode">${esc(r.id)}</span><span>${esc(title)}<br><span class="why">${esc(r.why)}</span></span><span class="soon">${t("soon")}</span></span>`;
     }).join("");
     $("#related").innerHTML = `
-      ${sectionHead("08", "Where it fits")}
+      ${sectionHead("08", t("fits"))}
       <div class="related">
-        <div class="card"><h3 class="small">Builds on</h3><div class="rel-list">${R.buildsOn.length ? list(R.buildsOn) : `<p class="muted" style="margin:0">${esc(R.buildsOnNote || "Nothing: this is a starting point.")}</p>`}</div></div>
-        <div class="card"><h3 class="small">Leads to</h3><div class="rel-list">${list(R.leadsTo)}</div></div>
+        <div class="card"><h3 class="small">${t("buildsOn")}</h3><div class="rel-list">${R.buildsOn.length ? list(R.buildsOn) : `<p class="muted" style="margin:0">${esc(R.buildsOnNote || t("startingPoint"))}</p>`}</div></div>
+        <div class="card"><h3 class="small">${t("leadsTo")}</h3><div class="rel-list">${list(R.leadsTo)}</div></div>
       </div>`;
   }
 
   /* ---------- boot ---------- */
   segmented($("#lang-seg"), LANGS, "lang");
-  segmented($("#variant-seg"), [{ id: "plain", label: "Plain" }, { id: "idiomatic", label: "Idiomatic" }], "variant");
+  segmented($("#variant-seg"), [{ id: "plain", label: t("plain") }, { id: "idiomatic", label: t("idiomatic") }], "variant");
   renderHero();
   renderAnalogy();
   renderWhen();

@@ -1,6 +1,6 @@
 # buatkode · Programming Plans
 
-A static, interactive catalogue of programming plans (counting, searching, classifying, nested loops…). Each plan has an animated trace and code in Python, Java, Rust, C and C++. See [docs/SPEC-release-1.md](docs/SPEC-release-1.md) for the release 1 spec.
+A static, interactive catalogue of programming plans (counting, searching, classifying, nested loops…). Each plan has an animated trace and code in Python, Java, Rust, C and C++. The site is in English, with a Bahasa Indonesia edition under `/id/`. See [docs/SPEC-release-1.md](docs/SPEC-release-1.md) for the release 1 spec.
 
 ## Run it locally
 
@@ -24,6 +24,10 @@ Then open <http://localhost:8765/>. Any static host works (GitHub Pages, Netlify
 | `tools/check_snippets.py` | Compiles and runs every snippet in every language |
 | `tools/check_finder.js` | Checks the finder: every path ends at a real plan within 4 questions, every live plan is reachable |
 | `tools/check_contrast.py` | Checks the colour pairs against WCAG AA |
+| `assets/js/i18n.js` | Interface strings in English and Indonesian, and the merge of the Indonesian overlays |
+| `data/id/` | Bahasa Indonesia overlays: `catalog.js`, `finder.js` and one `plans/<slug>.js` per card (text only; the code is shared) |
+| `id/` | The Indonesian pages: home, references, licence, and the generated `id/plans/<slug>.html` |
+| `tools/check_i18n.js` | Checks the Indonesian edition is complete and its traces match the English ones step for step |
 
 ## Check the code snippets
 
@@ -39,9 +43,19 @@ Useful flags: `--plan <slug>`, `--lang rust`, `--keep` (keeps the generated test
 
 1. Copy the data file of the most similar card in `data/plans/`. The trace types are `tiles` (D7), `pipeline` (A1), `branches` (B3) and `grid` (E1).
 2. Fill in the text, the code for all five languages (tag each line with its step number), the trace `run()` function, and the `checks` test cases.
-3. Run `python3 tools/make_pages.py` (it reads the title and summary from the data file) and set `live: true` in `data/catalog.js`.
-4. Run `node tools/check_finder.js`; every live plan must be reachable from the finder.
-5. Run `python3 tools/check_snippets.py --plan <slug>` until it's green.
+3. Write the Indonesian overlay in `data/id/plans/<slug>.js` and check it with `node tools/check_i18n.js <slug>`.
+4. Run `python3 tools/make_pages.py` (it reads the title and summary from the data file) and set `live: true` in `data/catalog.js`.
+5. Run `node tools/check_finder.js`; every live plan must be reachable from the finder.
+6. Run `python3 tools/check_snippets.py --plan <slug>` until it's green.
+
+## The Bahasa Indonesia edition
+
+Each overlay in `data/id/plans/` repeats only the text of an English card (title, steps, pitfalls, quiz, exercise, and a copy of `trace.run()` with Indonesian messages). Objects are merged key by key and lists item by item, so the overlay keeps the same order and lengths as the English file. Code, snippets and test cases are never translated. After changing an English card, update its overlay and run:
+
+```bash
+node tools/check_i18n.js <slug>
+python3 tools/make_pages.py
+```
 
 ## Add a language
 

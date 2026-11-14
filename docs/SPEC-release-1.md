@@ -183,6 +183,8 @@ There is no hard deadline yet (Q8). The phases are ordered to reduce risk early.
 
 **Beyond release 1 (2026-11-14):** the remaining 23 plans were added too, so all 40 cards are live (927/927 snippets green). The harness gained `bool` and `int[][]` parameters; the template gained multi-pointer tiles, numbered grid cells and a call-stack view for recursion.
 
+**Bahasa Indonesia edition (2026-11-14):** the whole site is also published under `/id/`, so the P2 translation item is done. Text overlays (`data/id/`) are merged onto the English data by `assets/js/i18n.js`; code and snippets are shared and stay in English. Plan names follow the original course page ("plan" becomes "skema"). `tools/check_i18n.js` checks that every card, the catalogue, the finder and the interface strings are translated, and that every trace preset produces the same steps as the English one. CI runs it and checks that the generated pages are up to date.
+
 **Main risks**
 - **Content volume:** 17 cards × 5 languages × 2 styles is about 170 snippets, plus solutions and buggy variants. Mitigation: the test harness (R8) arrives before the content, and cards are written in batches by group.
 - **The trace metaphor might not fit A, B and C plans.** Mitigation: Q5 is answered in phase 1, before the remaining cards are written.

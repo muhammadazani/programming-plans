@@ -1,0 +1,56 @@
+/* Bahasa Indonesia overlay for data/catalog.js: names and one-line summaries.
+   Same order as the English catalogue (tools/check_i18n.js checks it).
+   The plan names follow the original "Katalog Skema Pemrograman". */
+window.CATALOG_ID = {
+  groups: {
+    A: "Urutan",
+    B: "Seleksi",
+    C: "Kendali perulangan",
+    D: "Satu kali telusur data",
+    E: "Perulangan bersarang",
+    F: "Algoritma koleksi",
+    G: "Fungsi dan dekomposisi"
+  },
+  plans: [
+    { id: "A1", title: "Baca–Proses–Hasilkan", intent: "Ubah masukan menjadi hasil dengan rumus yang tetap." },
+    { id: "A2", title: "Tukar nilai", intent: "Pertukarkan nilai dua variabel dengan bantuan variabel sementara." },
+    { id: "A3", title: "Pecah dengan div dan mod", intent: "Pecah suatu jumlah menjadi satuan besar dan kecil dengan pembagian dan sisa bagi." },
+    { id: "A4", title: "Rapikan dan ambil bagian", intent: "Rapikan teks yang berantakan, cari penandanya, lalu ambil bagian yang diperlukan." },
+    { id: "B1", title: "Penjaga", intent: "Tangani dulu masukan yang akan merusak perhitungan, lalu kembali lebih awal." },
+    { id: "B2", title: "Pilih salah satu", intent: "Pilih satu dari tepat dua kemungkinan dengan if / else." },
+    { id: "B3", title: "Klasifikasi bertingkat", intent: "Masukkan sebuah nilai ke salah satu dari beberapa rentang yang berurutan." },
+    { id: "B4", title: "Keputusan bersarang", intent: "Putuskan berdasarkan dua fakta sekaligus, dengan if bersarang atau and / or." },
+    { id: "B5", title: "Tabel rujukan", intent: "Cari nilai berdasarkan kuncinya, alih-alih menulis rantai if yang panjang." },
+    { id: "C1", title: "Ulangi n kali", intent: "Kerjakan hal yang sama sebanyak bilangan yang sudah diketahui sebelumnya." },
+    { id: "C2", title: "Baca sampai tanda berhenti", intent: "Terus baca dan proses nilai sampai muncul nilai khusus penanda berhenti." },
+    { id: "C3", title: "Minta ulang sampai benar", intent: "Minta masukan berulang-ulang sampai masukannya valid." },
+    { id: "C4", title: "Ulangi sampai tercapai", intent: "Ulangi suatu langkah sampai target tercapai, sambil menghitung putarannya." },
+    { id: "C5", title: "Perulangan menu", intent: "Tampilkan menu, jalankan pilihan, dan ulangi sampai pengguna memilih keluar." },
+    { id: "D1", title: "Menghitung", intent: "Hitung berapa banyak item yang lolos suatu uji." },
+    { id: "D2", title: "Akumulasi", intent: "Gabungkan setiap item menjadi satu total atau hasil kali berjalan." },
+    { id: "D3", title: "Rata-rata", intent: "Total dan jumlah item dalam satu perulangan, lalu bagi; jaga kasus daftar kosong." },
+    { id: "D4", title: "Nilai terbesar / terkecil", intent: "Simpan nilai terbaik sejauh ini, sementara setiap item menantangnya." },
+    { id: "D5", title: "Posisi terbesar", intent: "Ingat di mana item terbesar berada, bukan hanya nilainya." },
+    { id: "D6", title: "Cari yang pertama", intent: "Kembalikan posisi kecocokan pertama, atau -1 jika tidak ada." },
+    { id: "D7", title: "Adakah?", intent: "Jawab ya pada item pertama yang cocok." },
+    { id: "D8", title: "Semuakah?", intent: "Jawab tidak pada item pertama yang gagal." },
+    { id: "D9", title: "Saring", intent: "Bangun daftar baru yang hanya berisi item yang lolos uji." },
+    { id: "D10", title: "Ubah setiap elemen", intent: "Bangun daftar baru dengan setiap item diubah dengan cara yang sama." },
+    { id: "D11", title: "Bangun teks", intent: "Bangun teks baru, satu karakter demi satu karakter." },
+    { id: "D12", title: "Bandingkan dengan sebelumnya", intent: "Bandingkan setiap item dengan item tepat sebelumnya." },
+    { id: "D13", title: "Rangkaian terpanjang", intent: "Lacak rangkaian saat ini dan rangkaian terpanjang sejauh ini." },
+    { id: "D14", title: "Hitung per kategori", intent: "Simpan satu penghitung untuk setiap kategori." },
+    { id: "D15", title: "Hitung kemunculan", intent: "Hitung seberapa sering setiap nilai berbeda muncul, dengan kamus (dictionary)." },
+    { id: "D16", title: "Kupas digit", intent: "Bongkar sebuah bilangan digit demi digit dengan % 10 dan ÷ 10." },
+    { id: "E1", title: "Pola baris-kolom", intent: "Perulangan luar untuk baris dan perulangan dalam untuk kolom pada setiap baris." },
+    { id: "E2", title: "Bandingkan setiap pasangan", intent: "Kunjungi setiap pasangan item tepat satu kali." },
+    { id: "E3", title: "Telusuri tabel 2D", intent: "Telusuri setiap sel tabel yang disimpan sebagai daftar berisi daftar." },
+    { id: "F1", title: "Dua penunjuk", intent: "Gerakkan dua posisi dari kedua ujung sebuah urutan menuju ke tengah." },
+    { id: "F2", title: "Bagi dua", intent: "Cari item dalam data terurut dengan membagi dua rentang pencarian di setiap langkah." },
+    { id: "F3", title: "Urutkan dengan memilih terkecil", intent: "Urutkan dengan berulang kali memindahkan item terkecil yang tersisa ke depan." },
+    { id: "F4", title: "Simpan yang sudah dilihat", intent: "Ingat apa yang sudah ditemui, untuk melewati duplikat." },
+    { id: "G1", title: "Fungsi penguji", intent: "Taruh uji ya/tidak yang bisa dipakai ulang di dalam fungsinya sendiri." },
+    { id: "G2", title: "Coba semua kemungkinan", intent: "Coba kandidat jawaban satu per satu sampai ada yang lolos uji." },
+    { id: "G3", title: "Rekursi", intent: "Selesaikan masalah dengan menyelesaikan versi yang lebih kecil dari masalah yang sama." }
+  ]
+};

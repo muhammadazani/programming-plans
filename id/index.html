@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skema Pemrograman · buatkode</title>
+  <meta name="description" content="Skema yang bisa dipakai ulang untuk kode sehari-hari: menghitung, mencari, mengklasifikasi, perulangan bersarang, dan lainnya. Setiap skema dilengkapi animasi penelusuran dan kode dalam Python, Java, Rust, C dan C++. Belum yakin skema mana yang Anda perlukan? Pencari skema akan mengajukan beberapa pertanyaan.">
+  <link rel="alternate" hreflang="en" href="https://muhammadazani.github.io/programming-plans/index.html">
+  <link rel="alternate" hreflang="id" href="https://muhammadazani.github.io/programming-plans/id/index.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="home">
+  <a class="skip-link" href="#finder">Langsung ke pencari skema</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html"><span class="prompt">&gt;&gt;&gt;</span> buatkode<span class="cursor"></span><small>Skema Pemrograman</small></a>
+      <nav class="site-nav" aria-label="Utama">
+        <a href="#catalogue" aria-current="page">Skema</a>
+        <a href="#finder">Pencari skema</a>
+        <a href="references.html">Referensi</a>
+        <a href="license.html">Lisensi</a>
+      </nav>
+      <a class="lang-switch" href="../index.html" hreflang="en" lang="en" title="Read in English">EN</a>
+    </div>
+  </header>
+
+  <section class="hero home-hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow"><span class="prompt">&gt;&gt;&gt;</span> skema pemrograman</p>
+        <h1>Pahami skemanya sekali. <mark class="hl">Tulis di bahasa apa saja.</mark></h1>
+        <p class="intent">Pemrogram berpengalaman tidak menyelesaikan setiap soal dari nol. Mereka mengenali <b>skema</b> yang sudah akrab (hitung ini, cari itu, simpan yang terbaik) lalu menyesuaikannya. Setiap skema di sini dilengkapi animasi penelusuran, kesalahan yang sering terjadi, dan kode dalam lima bahasa.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#finder">Cari skema untuk soal saya</a>
+          <a class="btn" href="#catalogue">Lihat semua skema</a>
+        </div>
+        <p class="hero-stats" id="hero-stats"></p>
+      </div>
+      <div class="hero-art" id="home-art" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section class="section" id="finder" aria-labelledby="finder-title">
+      <div class="section-head"><span class="kicker">01</span><h2 id="finder-title">Pencari skema</h2></div>
+      <p class="muted" style="margin:-4px 0 14px">Jawab beberapa pertanyaan tentang soal Anda (paling banyak empat) dan dapatkan skema yang cocok.</p>
+      <div class="card finder" id="finder-card"></div>
+    </section>
+
+    <section class="section" id="catalogue" aria-labelledby="catalogue-title">
+      <div class="section-head"><span class="kicker">02</span><h2 id="catalogue-title">Semua skema</h2></div>
+      <p class="muted" style="margin:-4px 0 14px">Ke-40 skema, dikelompokkan menurut jenisnya. Saring menurut tingkat atau kelompok untuk menemukan tempat memulai.</p>
+      <div class="filters" id="filters"></div>
+      <div id="groups" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <nav class="footer-links" aria-label="Informasi situs"><a href="references.html">Referensi</a> · <a href="license.html">Lisensi</a> · <a href="https://github.com/muhammadazani/programming-plans">Kode sumber di GitHub</a></nav>
+      Skema pemrograman mengikuti Soloway &amp; Ehrlich (1984); peran variabel mengikuti Sajaniemi (2002). © 2026 Muhammad Azani Hasibuan. Teks <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · kode <a href="license.html#code">MIT</a>.
+    </div>
+  </footer>
+
+  <script src="../data/catalog.js"></script>
+  <script src="../data/id/catalog.js"></script>
+  <script src="../data/finder.js"></script>
+  <script src="../data/id/finder.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+  <script src="../assets/js/home.js"></script>
+</body>
+</html>

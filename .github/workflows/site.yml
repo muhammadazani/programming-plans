@@ -41,6 +41,12 @@ jobs:
       - name: Check the plan finder's decision tree
         run: node tools/check_finder.js
 
+      - name: Check the Indonesian edition
+        run: node tools/check_i18n.js
+
+      - name: Check the generated pages are up to date
+        run: python3 tools/make_pages.py && git diff --exit-code -- plans id
+
       - name: Check colour contrast (WCAG AA)
         run: python3 tools/check_contrast.py
 
@@ -66,7 +72,7 @@ jobs:
       - name: Collect the public files
         run: |
           mkdir -p _site
-          cp -r index.html references.html license.html plans assets data _site/
+          cp -r index.html references.html license.html plans assets data id _site/
 
       - uses: actions/configure-pages@v5
 

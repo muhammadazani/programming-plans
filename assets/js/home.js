@@ -4,6 +4,7 @@
   "use strict";
 
   const C = window.CATALOG, F = window.FINDER;
+  const t = window.I18N ? window.I18N.t : (k) => k;
   const $ = (sel, root = document) => root.querySelector(sel);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const store = {
@@ -43,7 +44,7 @@
 
   /* ---------- hero ---------- */
   function renderHero() {
-    $("#hero-stats").innerHTML = `<b>${live.length}</b> plans live · <b>${C.plans.length}</b> planned · code in <b>Python, Java, Rust, C and C++</b>`;
+    $("#hero-stats").innerHTML = t("heroStats", { live: live.length, all: C.plans.length });
     let s = "";
     // a little skyline of cubes in the banner's style
     // tall columns on the left, short ones on the right, clear of the floating card
@@ -51,9 +52,9 @@
     blocks.forEach(([col, h]) => { for (let r = 0; r < h; r++) s += cube(6 + col * 46, 222 - r * 27 - col * 5, 23, r === h - 1 && col === 1 ? "amber" : (col + r) % 3 ? "blue" : "pale"); });
     s += cube(20, 30, 14, "pale") + cube(400, 230, 16, "pale") + cube(330, 250, 12, "amber", 0.85);
     $("#home-art").innerHTML = `<svg class="cubes" viewBox="0 0 460 290">${s}</svg>
-      <div class="plan-card"><div class="pc-title">plans <b>you'll meet</b></div>
-        <ol><li><span class="num">1</span>count, total, average</li><li><span class="num">2</span>find, any?, all?</li><li><span class="num">3</span>filter, build, classify</li></ol>
-        <div class="pc-foot">↻ in 5 languages</div></div>`;
+      <div class="plan-card"><div class="pc-title">${t("heroCardTitle")}</div>
+        <ol><li><span class="num">1</span>${t("heroCard1")}</li><li><span class="num">2</span>${t("heroCard2")}</li><li><span class="num">3</span>${t("heroCard3")}</li></ol>
+        <div class="pc-foot">${t("heroCardFoot")}</div></div>`;
   }
 
   /* ---------- plan finder ---------- */
@@ -68,36 +69,36 @@
     }
 
     function draw(focus) {
-      const crumbs = trail.map((t, i) => `<li><button type="button" class="crumb" data-back="${i}" title="Change this answer">${esc(F.nodes[t.node].options[t.option].label)}</button></li>`).join("");
+      const crumbs = trail.map((step, i) => `<li><button type="button" class="crumb" data-back="${i}" title="${t("changeAnswer")}">${esc(F.nodes[step.node].options[step.option].label)}</button></li>`).join("");
       const last = trail[trail.length - 1];
       const chosen = last && F.nodes[last.node].options[last.option];
       let body;
       if (chosen && chosen.result) {
         const p = plan(chosen.result), alt = chosen.alt && plan(chosen.alt);
         body = `
-          <p class="f-step">Your plan</p>
+          <p class="f-step">${t("yourPlan")}</p>
           <h3 class="f-q" tabindex="-1">${esc(p.title)}</h3>
           ${planTile(p, true)}
-          <p class="f-why"><b>Why:</b> ${esc(chosen.why)}</p>
+          <p class="f-why"><b>${t("why")}</b> ${esc(chosen.why)}</p>
           <div class="f-actions">
             ${p.live
-              ? `<a class="btn primary" href="${href(p)}">Open the ${esc(p.id)} card →</a>`
-              : `<span class="chip soon-chip">Coming soon</span>${alt ? `<a class="btn primary" href="${href(alt)}">Meanwhile, read ${esc(alt.id)} · ${esc(alt.title)} →</a>` : ""}`}
-            <button type="button" class="btn" data-restart>Start over</button>
+              ? `<a class="btn primary" href="${href(p)}">${t("openCard", { id: esc(p.id) })}</a>`
+              : `<span class="chip soon-chip">${t("soon")}</span>${alt ? `<a class="btn primary" href="${href(alt)}">${t("meanwhile", { id: esc(alt.id), title: esc(alt.title) })}</a>` : ""}`}
+            <button type="button" class="btn" data-restart>${t("startOver")}</button>
           </div>`;
       } else {
         const nodeId = chosen ? chosen.next : F.start;
         const node = F.nodes[nodeId];
         body = `
-          <p class="f-step">Question ${trail.length + 1}</p>
+          <p class="f-step">${t("question", { n: trail.length + 1 })}</p>
           <h3 class="f-q" tabindex="-1">${esc(node.q)}</h3>
           <div class="f-options">${node.options.map((o, i) => `
             <button type="button" class="f-opt" data-node="${esc(nodeId)}" data-opt="${i}">
               <b>${esc(o.label)}</b><span>${esc(o.hint || "")}</span>
             </button>`).join("")}</div>
-          ${trail.length ? `<div class="f-actions"><button type="button" class="btn" data-back="${trail.length - 1}">◀ Back</button><button type="button" class="btn" data-restart>Start over</button></div>` : ""}`;
+          ${trail.length ? `<div class="f-actions"><button type="button" class="btn" data-back="${trail.length - 1}">${t("back")}</button><button type="button" class="btn" data-restart>${t("startOver")}</button></div>` : ""}`;
       }
-      card.innerHTML = `${trail.length ? `<ol class="f-trail" aria-label="Your answers so far">${crumbs}</ol>` : ""}<div class="f-body" aria-live="polite">${body}</div>`;
+      card.innerHTML = `${trail.length ? `<ol class="f-trail" aria-label="${t("answersSoFar")}">${crumbs}</ol>` : ""}<div class="f-body" aria-live="polite">${body}</div>`;
       if (focus) $(".f-q", card).focus();
     }
 
@@ -121,9 +122,9 @@
 
     const chip = (key, value, label) => `<button type="button" class="fchip" data-key="${key}" data-value="${esc(value)}">${esc(label)}</button>`;
     $("#filters").innerHTML = `
-      <div class="frow" role="group" aria-label="Filter by level"><span class="flabel">Level</span>${chip("level", "all", "All")}${LEVELS.map((l) => chip("level", l, l)).join("")}</div>
-      <div class="frow" role="group" aria-label="Filter by group"><span class="flabel">Group</span>${chip("group", "all", "All")}${groups.map((g) => chip("group", g, `${g} · ${C.groups[g]}`)).join("")}</div>
-      <label class="flive"><input type="checkbox" id="live-only"> Only show plans that are live</label>`;
+      <div class="frow" role="group" aria-label="${t("filterLevel")}"><span class="flabel">${t("levelLabel")}</span>${chip("level", "all", t("all"))}${LEVELS.map((l) => chip("level", l, t("lvl." + l))).join("")}</div>
+      <div class="frow" role="group" aria-label="${t("filterGroup")}"><span class="flabel">${t("groupLabel")}</span>${chip("group", "all", t("all"))}${groups.map((g) => chip("group", g, `${g} · ${C.groups[g]}`)).join("")}</div>
+      <label class="flive"><input type="checkbox" id="live-only"> ${t("liveOnly")}</label>`;
     const liveBox = $("#live-only");
 
     function draw() {
@@ -137,13 +138,13 @@
         if (!shown.length) return "";
         const nLive = all.filter((p) => p.live).length;
         return `<section class="group" id="group-${g}" aria-labelledby="group-${g}-title">
-          <h3 class="group-title" id="group-${g}-title"><span class="gcode">${g}</span>${esc(C.groups[g])}<span class="gcount">${all.length} plans · ${nLive} live</span></h3>
+          <h3 class="group-title" id="group-${g}-title"><span class="gcode">${g}</span>${esc(C.groups[g])}<span class="gcount">${t("plansCount", { n: all.length })} · ${t("liveCount", { n: nLive })}</span></h3>
           <div class="ptiles">${shown.map((p) => p.live
-            ? `<a class="ptile" href="${href(p)}">${thumb(g)}<span class="pt-head"><span class="pcode">${esc(p.id)}</span>${p.core ? '<span class="pt-core" title="Core plan">★</span>' : ""}<span class="pt-level">${esc(p.level)}</span></span><b>${esc(p.title)}</b><span class="pt-intent">${esc(p.intent)}</span><span class="pt-go">Open →</span></a>`
-            : `<div class="ptile soon">${thumb(g)}<span class="pt-head"><span class="pcode">${esc(p.id)}</span><span class="pt-level">${esc(p.level)}</span></span><b>${esc(p.title)}</b><span class="pt-intent">${esc(p.intent)}</span><span class="pt-soon">Coming soon</span></div>`).join("")}</div>
+            ? `<a class="ptile" href="${href(p)}">${thumb(g)}<span class="pt-head"><span class="pcode">${esc(p.id)}</span>${p.core ? `<span class="pt-core" title="${t("corePlan")}">★</span>` : ""}<span class="pt-level">${esc(t("lvl." + p.level))}</span></span><b>${esc(p.title)}</b><span class="pt-intent">${esc(p.intent)}</span><span class="pt-go">${t("open")}</span></a>`
+            : `<div class="ptile soon">${thumb(g)}<span class="pt-head"><span class="pcode">${esc(p.id)}</span><span class="pt-level">${esc(t("lvl." + p.level))}</span></span><b>${esc(p.title)}</b><span class="pt-intent">${esc(p.intent)}</span><span class="pt-soon">${t("soon")}</span></div>`).join("")}</div>
         </section>`;
       }).join("");
-      $("#groups").innerHTML = html || `<p class="empty-filter">No plans match these filters. <button type="button" class="btn small" data-clear>Clear the filters</button></p>`;
+      $("#groups").innerHTML = html || `<p class="empty-filter">${t("noMatch")} <button type="button" class="btn small" data-clear>${t("clearFilters")}</button></p>`;
     }
 
     $("#filters").addEventListener("click", (e) => {
