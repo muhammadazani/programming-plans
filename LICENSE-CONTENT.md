@@ -3,7 +3,7 @@
 The written lesson content of **buatkode · Programming Plans** is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International licence (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/).
 
-Copyright © 2026 muhammadazani.
+Copyright © 2026 Muhammad Azani Hasibuan.
 
 ## What counts as lesson content
 
@@ -19,7 +19,7 @@ MIT licence instead; see [LICENSE](LICENSE).
 
 You may copy, adapt and share the lesson content, including for teaching and commercially, as long as you:
 
-- **give credit**: name "buatkode · Programming Plans" and link to the original;
+- **give credit**: name the work, "buatkode · Programming Plans", and its author, Muhammad Azani Hasibuan, and link to the original;
 - **say what you changed**, if anything; and
 - **share alike**: release your adapted version under CC BY-SA 4.0 too.
 
